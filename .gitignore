@@ -1,0 +1,8 @@
+datasets
+runs
+wandb
+**.png
+**.zip
+**.pt
+mmpretrain
+predicted_unknown*
