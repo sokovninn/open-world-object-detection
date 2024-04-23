@@ -2,6 +2,7 @@ import os
 import shutil
 import random
 import json
+import argparse
 
 def remove_classes(input_dir, output_dir, percentage):
     # Create the output directory if it doesn't exist
@@ -25,8 +26,8 @@ def remove_classes(input_dir, output_dir, percentage):
     num_classes_to_remove = int(len(train_class_dirs) * percentage / 100)
     
     # Randomly select classes to remove
-    #classes_to_remove = random.sample(train_class_dirs, num_classes_to_remove)
-    classes_to_remove = ["tench", "English springer", "chain saw"]
+    classes_to_remove = random.sample(train_class_dirs, num_classes_to_remove)
+    #classes_to_remove = ["tench", "English springer", "chain saw"]
     known_classes = [d for d in train_class_dirs if d not in classes_to_remove]
     # Save the list of removed classes to a file
     with open(os.path.join(output_dir, "known_unknown_classes.json"), "w") as f:
@@ -67,9 +68,14 @@ def remove_classes(input_dir, output_dir, percentage):
 
 if __name__ == "__main__":
     random.seed(1234)
-    input_dir = "datasets/imagenette320"
-    percentage_to_remove = 30  # Change this value to the desired percentage
 
-    output_dir = f"datasets/imagenette320_{100-percentage_to_remove}"
+    # Parse command line arguments
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--input_dir", type=str, required=True, help="Path to the input directory")
+    args = parser.parse_args()
+    #input_dir = "datasets/tiny-imagenet-200"
+    percentage_to_remove = 10  # Change this value to the desired percentage
 
-    remove_classes(input_dir, output_dir, percentage_to_remove)
+    output_dir = f"{args.input_dir}_{100-percentage_to_remove}"
+
+    remove_classes(args.input_dir, output_dir, percentage_to_remove)
