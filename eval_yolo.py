@@ -46,7 +46,7 @@ def visualize_tsne(embeddings, labels, title, output_path=""):
 
     # Generate unique colors for each class
     num_classes = len(np.unique(labels))
-    colors = plt.cm.get_cmap('tab10', num_classes)
+    colors = plt.cm.get_cmap('plasma', num_classes)
 
     # Plot t-SNE embeddings with color-coded classes
     plt.figure(figsize=(10, 8))
@@ -58,7 +58,8 @@ def visualize_tsne(embeddings, labels, title, output_path=""):
     plt.title(title, fontsize=20)
     plt.xlabel('t-SNE Component 1', fontsize=18)
     plt.ylabel('t-SNE Component 2', fontsize=18)
-    plt.legend(fontsize=16)
+    if num_classes < 10:
+        plt.legend(fontsize=16)
     
     plt.savefig(os.path.join(output_path, f"{title}.png"))
     plt.close()
@@ -96,7 +97,7 @@ def main(args):
             train_probs[class_name].append(result.probs.data)
             
             if args.limit_num_images:
-                if i == 50:
+                if i == 100:
                     break
 
     train_probs_concat = []
@@ -189,8 +190,12 @@ def main(args):
                 gmm_score = np.mean(gmm_scores)
                 max_logit = torch.max(logits)
 
-                if max_logit < args.max_logit_threshold:
-                    predicted_unknown_paths.append(image_path)
+                if args.decision_criteria == "max_conf":
+                    if max_logit < args.max_logit_threshold:
+                        predicted_unknown_paths.append(image_path)
+                elif args.decision_criteria == "entropy":
+                    if entropy_value > args.entropy_threshold:
+                        predicted_unknown_paths.append(image_path)
 
                 if split == "unknown_classes":
                     unknown_max_confs.append(max_conf)
@@ -213,9 +218,9 @@ def main(args):
                     known_val_probs.append(result.probs.data)
                     known_val_labels.append(class_name)
                 
-                if args.limit_num_images:
-                    if i == 50:
-                        break
+                # if args.limit_num_images:
+                #     if i == 50:
+                #         break
 
     
 
@@ -257,7 +262,9 @@ if __name__ == "__main__":
     parser.add_argument('--output_path', type=str, help='Output path')
     parser.add_argument('--save_pred_unknown', action='store_true', help='Save predicted unknown images')
     parser.add_argument('--limit_num_images', action='store_true', help='Limit number of images to evaluate')
-    parser.add_argument('--max_logit_threshold', type=float, default=5.54, help='Max logit threshold for unknown class prediction')
+    parser.add_argument('--max_logit_threshold', type=float, default=5.055, help='Max logit threshold for unknown class prediction')
+    parser.add_argument('--entropy_threshold', type=float, default=0.998, help='Entropy threshold for unknown class prediction')
+    parser.add_argument('--decision_criteria', choices=["max_conf", "entropy"], default="max_conf", help='Decision criteria for unknown class prediction')
 
     args = parser.parse_args()
 
