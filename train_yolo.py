@@ -6,6 +6,7 @@ from ultralytics import YOLO
 #model = YOLO('runs/classify/train31/weights/best.pt')  
 #model = YOLO('yolov8n-cls.yaml').load('yolov8n-cls.pt')  # build from YAML and transfer weights
 model = YOLO('runs/classify/train64/weights/best.pt')  # load a model from a specific run
+#model = YOLO('runs/classify/train98/weights/best.pt')  # load a model from a specific run
 
 # Train the model
 #results = model.train(data='datasets/cifar100_100', imgsz=128, epochs=20, batch=256, label_smoothing=0.1, workers=8) #100, imgsz=32, batch=4096, workers=8
@@ -17,7 +18,9 @@ model = YOLO('runs/classify/train64/weights/best.pt')  # load a model from a spe
 #results = model.train(data='datasets/imagenette320_70', imgsz=256, epochs=10, batch=8, label_smoothing=0.1, workers=8, amp=False)
 #results = model.train(data='datasets/imagenette320_70_30_synth_merged', imgsz=256, epochs=1, batch=8, label_smoothing=0.1, workers=8, amp=False, freeze=9)
 #results = model.train(data='datasets/imagenette320_70_30_synth3x_merged', imgsz=256, epochs=1, batch=8, label_smoothing=0.1, workers=8, amp=False, freeze=9)
-results = model.train(data='datasets/imagenette320_70_unk_full_clip', imgsz=256, epochs=10, batch=8, label_smoothing=0.1, workers=8, amp=False)
+results = model.train(data='datasets/imagenette320_70_unk_clip', imgsz=256, epochs=10, batch=8, label_smoothing=0.1, workers=8, amp=False)
+#results = model.train(data='datasets/tiny-imagenet-200_90', imgsz=256, epochs=10, batch=64, label_smoothing=0.1, workers=8, amp=False)
+#results = model.train(data='datasets/tiny-imagenet-200_90_synth_merged', imgsz=256, epochs=5, batch=64, label_smoothing=0.1, workers=8, amp=False, freeze=9)
 
 #print(model)
 
