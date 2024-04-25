@@ -51,3 +51,13 @@ Optimal threshold for gmm_score: -31.665662851713183, TPR: 0.8627521613832853, F
 full: train97 (0.706 0.896)
 90(180 classes): train98 (0.72 0.905)
 90 + 10 synth: train100 (0.641 0.824)
+90 + clip: train102 (0.694 0.892)
+
+```
+python eval_yolo.py --model_path runs/classify/train98/weights/best.pt --dataset_path datasets/tiny-imagenet-200_90 --output_path tiny-imagenet_90 --limit_num_images --save_pred_unknown --decision_criteria entropy
+```
+Optimal threshold for MSP: 0.7040815949440002, TPR: 0.6007777777777777, FPR: 0.196
+Optimal threshold for entropy: 0.9983394145965576, TPR: 0.8264, FPR: 0.4073333333333333
+Optimal threshold for MLS: 11.277005195617676, TPR: 0.5765555555555556, FPR: 0.2045
+Optimal threshold for CCD: 1.0505118370056152, TPR: 0.5581111111111111, FPR: 0.1688
+Optimal threshold for gmm_score: -341257410.6266379, TPR: 0.6643, FPR: 0.49033333333333334
