@@ -251,7 +251,7 @@ def main(args):
         os.makedirs(save_path)
         for image_path in predicted_unknown_paths:
             image_name = image_path.split("/")[-1]
-            os.system(f"cp '{image_path}' {os.path.join(save_path, image_name)}")
+            os.system(f'cp "{image_path}" {os.path.join(save_path, image_name)}')
 
 
 if __name__ == "__main__":
