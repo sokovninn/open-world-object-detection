@@ -1,0 +1,3 @@
+python train_classifier.py --exp-name=tinrweights20k10u --n-gpu 1 --tensorboard --image-size 64 --batch-size 8 --num-workers 4 --train-steps 128000 --lr 0.001 --wd 1e-5 --dataset TinyImageNet --num-classes 30 --random-seed 0  --checkpoint-path pretrained_model/imagenet21k+imagenet2012_ViT-B_16.pth --dataset-path=tin_rweights_20k10u
+python train_classifier.py --exp-name=tinrweights20k100u --n-gpu 1 --tensorboard --image-size 64 --batch-size 8 --num-workers 4 --train-steps 128000 --lr 0.001 --wd 1e-5 --dataset TinyImageNet --num-classes 120 --random-seed 0  --checkpoint-path pretrained_model/imagenet21k+imagenet2012_ViT-B_16.pth --dataset-path=tin_rweights_20k100u
+

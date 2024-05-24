@@ -1,0 +1,70 @@
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+conda env create -f environment.yml 
+
+download pretrained model
+python ./src/download_pretrained_model.py 
+
+
+MNIST
+classifier: nohup python -u ./train_classifier_batch.py --checkpoint-path ./pretrained_model/imagenet21k+imagenet2012_ViT-B_16.pth --dataset MNIST > MNIST_classifier.log & disown
+evaluate classifier and oodformer: python ./measure_oodformer.py --exp-name osrclassifier --in-dataset MNIST --out-dataset MNIST --in-num-classes 6 --out-num-classes 4
+print results: python ./evaluate.py --exp-name osrclassifier --in-dataset MNIST --out-dataset MNIST --in-num-classes 6 --out-num-classes 4
+
+detector: nohup python -u ./train_detector_batch.py --dataset MNIST > MNIST_detector.log & disown 
+evaluate osrdetector: python ./measure_osrdetector.py --exp-name osrdetector --in-dataset MNIST --out-dataset MNIST --in-num-classes 6 --out-num-classes 4 
+print results: python ./evaluate.py --exp-name osrdetector --in-dataset MNIST --out-dataset MNIST --in-num-classes 6 --out-num-classes 4
+
+
+
+SVHN
+classifier: nohup python -u ./train_classifier_batch.py --checkpoint-path ./pretrained_model/imagenet21k+imagenet2012_ViT-B_16.pth --dataset SVHN > SVHN_classifier.log & disown
+evaluate classifier and oodformer: python ./measure_oodformer.py --exp-name osrclassifier --in-dataset SVHN --out-dataset SVHN --in-num-classes 6 --out-num-classes 4
+print results: python ./evaluate.py --exp-name osrclassifier --in-dataset SVHN --out-dataset SVHN --in-num-classes 6 --out-num-classes 4
+
+detector: nohup python -u ./train_detector_batch.py --dataset SVHN > SVHN_detector.log & disown 
+evaluate osrdetector: python ./measure_osrdetector.py --exp-name osrdetector --in-dataset SVHN --out-dataset SVHN --in-num-classes 6 --out-num-classes 4 
+print results: python ./evaluate.py --exp-name osrdetector --in-dataset SVHN --out-dataset SVHN --in-num-classes 6 --out-num-classes 4
+
+cifar 10
+classifier: nohup python -u ./train_classifier_batch.py --checkpoint-path ./pretrained_model/imagenet21k+imagenet2012_ViT-B_16.pth --dataset CIFAR10 > CIFAR10_classifier.log & disown
+evaluate classifier and oodformer: python ./measure_oodformer.py --exp-name osrclassifier --in-dataset CIFAR10 --out-dataset CIFAR10 --in-num-classes 6 --out-num-classes 4
+print results: python ./evaluate.py --exp-name osrclassifier --in-dataset CIFAR10 --out-dataset CIFAR10 --in-num-classes 6 --out-num-classes 4
+
+detector: nohup python -u ./train_detector_batch.py --dataset CIFAR10 > CIFAR10_detector.log & disown 
+evaluate osrdetector: python ./measure_osrdetector.py --exp-name osrdetector --in-dataset CIFAR10 --out-dataset CIFAR10 --in-num-classes 6 --out-num-classes 4 
+print results: python ./evaluate.py --exp-name osrdetector --in-dataset CIFAR10 --out-dataset CIFAR10 --in-num-classes 6 --out-num-classes 4
+
+cifar N:
+classifier:  nohup python -u ./train_classifier_batch.py --num-classes 4 --checkpoint-path ./pretrained_model/imagenet21k+imagenet2012_ViT-B_16.pth --dataset CIFAR10 > CIFARN_classifier.log & disown
+detector: nohup python -u ./train_detector_batch.py --num-classes 4 --dataset CIFAR10 > CIFARN_detector.log & disown
+
+cifar+10
+evaluate classifier and oodformer: python ./measure_oodformer.py --exp-name osrclassifier --in-dataset CIFAR10 --out-dataset CIFAR100 --in-num-classes 4 --out-num-classes 10
+print results: python ./evaluate.py --exp-name osrclassifier --in-dataset CIFAR10 --out-dataset CIFAR100 --in-num-classes 4 --out-num-classes 10
+
+evaluate osrdetector: python ./measure_osrdetector.py --exp-name osrdetector --in-dataset CIFAR10 --out-dataset CIFAR100 --in-num-classes 4 --out-num-classes 10
+print results: python ./evaluate.py --exp-name osrdetector --in-dataset CIFAR10 --out-dataset CIFAR100 --in-num-classes 4 --out-num-classes 10
+
+cifar+50
+evaluate classifier and oodformer: python ./measure_oodformer.py --exp-name osrclassifier --in-dataset CIFAR10 --out-dataset CIFAR100 --in-num-classes 4 --out-num-classes 50
+print results: python ./evaluate.py --exp-name osrclassifier --in-dataset CIFAR10 --out-dataset CIFAR100 --in-num-classes 4 --out-num-classes 50
+
+evaluate osrdetector: python ./measure_osrdetector.py --exp-name osrdetector --in-dataset CIFAR10 --out-dataset CIFAR100 --in-num-classes 4 --out-num-classes 50
+print results: python ./evaluate.py --exp-name osrdetector --in-dataset CIFAR10 --out-dataset CIFAR100 --in-num-classes 4 --out-num-classes 50
+
+tiny imagenet
+classifier: nohup python -u ./train_classifier_batch.py --num-classes 20 --checkpoint-path ./pretrained_model/imagenet21k+imagenet2012_ViT-B_16.pth --dataset TinyImageNet > TinyImageNet_classifier.log & disown
+evaluate osrdetector: python ./measure_osrdetector.py --exp-name osrclassifier --in-dataset TinyImageNet --out-dataset TinyImageNet --in-num-classes 20 --out-num-classes 180
+
+detector: nohup python -u ./train_detector_batch.py --num-classes 20 --dataset TinyImageNet > TinyImageNet_detector.log & disown
+evaluate osrdetector: python ./measure_osrdetector.py --exp-name osrdetector --in-dataset TinyImageNet --out-dataset TinyImageNet --in-num-classes 20 --out-num-classes 180
+print results: python ./evaluate.py --exp-name osrdetector --in-dataset TinyImageNet --out-dataset TinyImageNet --in-num-classes 20 --out-num-classes 180
+
+cub
+classifier: nohup python -u ./train_classifier.py --exp-name osrclassifier --n-gpu 4 --tensorboard --image-size 448 --batch-size 64 --num-workers 16 --train-steps 4590 --lr 0.01 --wd 1e-5 --dataset CUB --num-classes 100 --random-seed 0 --checkpoint-path ./pretrained_model/imagenet21k+imagenet2012_ViT-B_16.pth > CUB_classifier.log & disown
+evaluate classifier and oodformer: python ./measure_oodformer.py --exp-name osrclassifier --in-dataset CUB --out-dataset CUB --in-num-classes 100 --out-num-classes -1 --image-size 448 --batch_size 8
+print results: python ./evaluate.py --exp-name osrclassifier --in-dataset CUB --out-dataset CUB --in-num-classes 100 --out-num-classes -1
+
+detector: nohup python -u ./train_detector.py --exp-name osrdetector --n-gpu 4 --tensorboard --image-size 448 --batch-size 64 --num-workers 16 --train-steps 4590 --lr 0.01 --wd 1e-5 --dataset CUB --num-classes 100 --random-seed 0 --checkpoint-path ./experiments/save/osrclassifier_CUB_b16_bs64_lr0.01_wd1e-05_nc100_rs0_220216_164049/checkpoints/ckpt_epoch_current.pth --random-seed 0 > CUB_detector.log & disown
+evaluate osrdetector: python ./measure_osrdetector.py --exp-name osrdetector --in-dataset CUB --out-dataset CUB --in-num-classes 100 --out-num-classes -1 --image-size 448 --batch_size 8
+print results: python ./evaluate.py --exp-name osrdetector --in-dataset CUB --out-dataset CUB --in-num-classes 100 --out-num-classes -1
