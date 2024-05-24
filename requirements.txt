@@ -1,0 +1,7 @@
+ultralytics
+torch
+numpy
+scikit-learn
+matplotlib
+scipy
+datadreamer
