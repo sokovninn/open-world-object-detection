@@ -1,7 +1,7 @@
 
 # Open Vocabulary Object Detection with Multimodal and Generative Models
 
-This repository contains the code for the master thesis "Open Vocabulary Object Detection with Multimodal and Generative Models".
+This repository contains the code for the master thesis "[Open Vocabulary Object Detection with Multimodal and Generative Models](https://dspace.cvut.cz/handle/10467/114813?locale-attribute=en)".
 
 ## Abstract
 
